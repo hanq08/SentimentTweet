@@ -11,8 +11,6 @@ var app = express();
 var port = process.env.PORT || 3000;
 var router = express.Router();
 var staticRoot = __dirname;
-var privateKey = fs.readFileSync('key.pem');
-var certificate = fs.readFileSync('cert.pem');
 var twitter = new twit({
   consumer_key: "UpYOyN12AEXJm3UPYvMDjvSXD",
   consumer_secret: "RQZGFb80WaKUB4DQNyuqwRZtjGSUmgslx1HlWMBNMgUogsp7FC",
