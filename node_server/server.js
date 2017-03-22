@@ -38,7 +38,6 @@ var io = require('socket.io').listen(server);
 var streams;
 app.get('/stream/:query', function(req, res, next) {
   if (twit.currentTwitStream){
-     console.log( twit.currentTwitStream.status);
      destroy(twit.currentTwitStream);
      twit.currentTwitStream.destroy();
      streams.destroy();
