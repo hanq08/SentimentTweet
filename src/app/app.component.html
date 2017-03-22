@@ -1,3 +1,18 @@
-<h1>
-  {{title}}
-</h1>
+<label for="term">Track Most Recent 200 Tweets containing</label>
+<input type="text" id="term" name="term" [(ngModel)]="term" placeholder="search term" required/>
+<button md-raised-button color="primary" (click)="setSearchTerm(term)">Search</button>
+<div class="container">
+  <div class="col-md-6">
+      <tweet-component [twitterState]="twitterState"></tweet-component>
+  </div>
+  <div id="scatterplot" class="col-md-6">
+      <scatterplot-component [twitterState]="twitterState"></scatterplot-component>
+      <div>
+      <h3>What does the graph mean?</h3>
+      <p> Dot Radius: User statuses count (How active the user is?)</p>
+      <p> Green: This is a positive tweet about the query term </p>
+      <p> Red: This is a negative tweet about the query term </p>
+      </div>
+  </div>
+</div>
+
