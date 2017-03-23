@@ -7,7 +7,6 @@ import 'rxjs/add/operator/catch'
 
 @Injectable()
 export class TweetService {
-  private url = '//localhost:3000';
   private socket;
   
   constructor (private _http: Http) { }

@@ -64,7 +64,7 @@ module.exports = ""
 /***/ 1100:
 /***/ (function(module, exports) {
 
-module.exports = "<div class = \"container\">\n    <div class=\"col-md-12\">\n        <label for=\"term\">Track Most Recent Tweets containing</label>\n        <input type=\"text\" id=\"term\" name=\"term\" [(ngModel)]=\"term\" placeholder=\"search term\" required/>\n        <button md-raised-button color=\"primary\" (click)=\"setSearchTerm(term)\">Search</button>\n    </div>\n<div class=\"container\">\n  <div class=\"col-md-6\">\n      <tweet-component [twitterState]=\"twitterState\"></tweet-component>\n  </div>\n  <div id=\"scatterplot\" class=\"col-md-6\">\n      <scatterplot-component [twitterState]=\"twitterState\"></scatterplot-component>\n      <div>\n      <h3>What does the graph mean?</h3>\n      <p> Dot Radius: User statuses count (How active the user is?)</p>\n      <p> Green: This is a positive tweet about the query term </p>\n      <p> Red: This is a negative tweet about the query term </p>\n      </div>\n  </div>\n</div>\n\n"
+module.exports = "<div class = \"container\">\n    <div class=\"col-md-12\">\n        <label for=\"term\">Track Most Recent Tweets containing</label>\n        <input type=\"text\" id=\"term\" name=\"term\" [(ngModel)]=\"term\" placeholder=\"search term\" required/>\n        <button color=\"primary\" (click)=\"setSearchTerm(term)\">Search</button>\n        <p>Calculation may take 10 to 20 seconds</p>\n    </div>\n<div class=\"container\">\n  <div class=\"col-md-6\">\n      <tweet-component [twitterState]=\"twitterState\"></tweet-component>\n  </div>\n  <div id=\"scatterplot\" class=\"col-md-6\">\n      <scatterplot-component [twitterState]=\"twitterState\"></scatterplot-component>\n      <div>\n      <h3>What does the graph mean?</h3>\n      <p> Dot Radius: User statuses count (How active the user is?)</p>\n      <p> Green: This is a positive tweet about the query term </p>\n      <p> Red: This is a negative tweet about the query term </p>\n      </div>\n  </div>\n</div>\n\n"
 
 /***/ }),
 
@@ -465,7 +465,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var TweetService = (function () {
     function TweetService(_http) {
         this._http = _http;
-        this.url = '//localhost:3000';
     }
     TweetService.prototype.connectToStream = function () {
         var _this = this;
