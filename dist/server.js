@@ -2,7 +2,7 @@ var express = require('express');
 var https = require('https');
 var http = require('http');
 var path = require('path');
-var twit = require('twitter');
+var twit = require('ntwitter');
 var unirest = require('unirest');
 var destroy = require('destroy');
 var fs = require('fs');
@@ -27,21 +27,24 @@ app.get('/', function(req, res) {
 
 
 //var server = https.createServer(options, app).listen(port);
-var server = app.listen(port);
+var server = app.listen(port, function(){
+  console.log("listening to port: " + port);
+});
 var io = require('socket.io').listen(server);
 
-var streams;
+var s = null;
 app.get('/stream/:query', function(req, res, next) {
-  if (twit.currentTwitStream){
-     destroy(twit.currentTwitStream);
-     twit.currentTwitStream.destroy();
-     streams.destroy();
-     destroy(streams);
+  if (s){
+    console.log("destroy stream");
+     s.destroy();
+     setTimeout(function(){
+       console.log("wait");
+     }, 5000);
+     s = null;
   }
- twitter.stream('statuses/filter', {track: req.params.query}, function(stream) {
-    streams = stream;
+  twitter.stream('statuses/filter', {track: req.params.query}, function(stream) {
+    s = stream;
     console.log(req.params.query);
-    twit.currentTwitStream = stream;
     stream.on('data', function(data) {
           data.location = data.geo ? data.geo.cordinates:[];
           unirest.get("https://twinword-sentiment-analysis.p.mashape.com/analyze/?text=" + data.text)
@@ -60,16 +63,26 @@ app.get('/stream/:query', function(req, res, next) {
                   coordinates: data.location,
                   sentiment_result: result.body['type']
             }
-            io.emit('tweet', tweet);
+            io.emit(req.params.query, tweet);
            }
             
        });
    });
 
     stream.on('error', function(error) {
-      
+      console.log("twitter stream error");
     });
-  });
+});
 });
 
+app.get('/close', function(req, res) {
+  if (s){
+    console.log("destroy stream");
+     s.destroy();
+     setTimeout(function(){
+       console.log("wait");
+     }, 5000);
+     s = null;
+  }
+});
 // These code snippets use an open-source library. http://unirest.io/nodejs

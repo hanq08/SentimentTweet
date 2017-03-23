@@ -1,4 +1,4 @@
-<div *ngFor="let tweet of latestTweets" [@flyInOut] class="tweet">
+<div *ngFor="let tweet of latestTweets" class="tweet">
     <md-card-header>
       <img md-card-avatar [src]="tweet.profile_image_url">
       <md-card-title><a href="http://twitter.com/{{tweet.username}}" target="_blank">@{{tweet.username}}</a></md-card-title>
@@ -6,6 +6,6 @@
     </md-card-header>
     <md-card-content>
       <p>{{tweet.text}}</p>
-      <p>{{tweet.sentiment_result}}</p>
+      <p>Sentiment result: {{tweet.sentiment_result}}</p>
     </md-card-content>
 </div>

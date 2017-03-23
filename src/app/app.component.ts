@@ -1,5 +1,6 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, HostListener } from '@angular/core';
 import * as D3 from 'd3/index';
+import { Http, Response } from '@angular/http';
 import { Tweet } from './shared/tweet';
 import { TweetService } from './shared/tweet.service';
 
@@ -9,7 +10,9 @@ import { TweetService } from './shared/tweet.service';
   styleUrls: ['./app.component.css'],
   providers:[TweetService]
 })
+
 export class AppComponent implements OnInit{
+ 
   errorMessage: string;
   term:string;
   host;
@@ -19,18 +22,25 @@ export class AppComponent implements OnInit{
   socket;
   tweets: Tweet[] = [];
   twitterState:any={};
+  connect;
 
   constructor(private _element:ElementRef, private _tweetService: TweetService){
     this.host = D3.select(this._element.nativeElement);
   }
-
+  @HostListener('window:beforeunload')
+  close(){
+    console.log("closed");
+    this.tweets = [];
+    this.twitterState.tweets = [];
+    this._tweetService.closeStream().subscribe();
+  }
   ngOnInit(){
     this.buildSVG();
-    this.connectToTweetStream();
+    //this.connectToTweetStream();
   }
 
    connectToTweetStream() {
-    this._tweetService.connectToStream()
+    this.connect = this._tweetService.connectToStream()
       .subscribe(
         tweet => {
           this.tweets.push(tweet as Tweet);
@@ -49,15 +59,27 @@ export class AppComponent implements OnInit{
    this.streamContainer = this.host.append('div');
   }
 
+  connectSearchTerm(term: string){
+    this._tweetService.connectSearchTerm(term)
+    .subscribe(
+      tweet => {
+          this.tweets.push(tweet as Tweet);
+          this.twitterState = {
+            tweets: this.tweets
+          };
+        },  
+        error => this.errorMessage = <any>error
+    );
+  }
+
   setSearchTerm(term:string){
     if (this.stream){
+      this._tweetService.disconnectToStream();
       this.stream.unsubscribe();
       this.tweets=[];
+      this.twitterState.tweets = [];
     }
-    this.stream = this._tweetService.setSearchTerm(term)
-    .subscribe(
-      ()=>console.log('search term set'),
-      error => this.errorMessage = <any>error
-    );
+    this.connectSearchTerm(term);
+    this.stream = this._tweetService.setSearchTerm(term).subscribe();
   }
 }

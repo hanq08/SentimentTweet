@@ -28,6 +28,17 @@ export class TweetService {
   disconnectToStream(){
     this.socket.disconnect();
   }
+
+  connectSearchTerm(term: string) : Observable<any>{
+    let observable = new Observable(observer => {
+      this.socket = io();
+      this.socket.on(term, (tweet) => {
+        observer.next(tweet);
+      });
+    })
+    return observable;
+  }
+
   setSearchTerm(searchTerm: string): Observable<any> {
     console.log(`/stream/${searchTerm}`);
     return this._http.get(`/stream/${searchTerm}`)
@@ -35,6 +46,10 @@ export class TweetService {
       .catch(this.handleError);
   }
 
+  closeStream(){
+    console.log("closing");
+    return this._http.get(`/close`);
+  }
   private extractData(res: Response) {
     console.log(res);
     let body = res.json();

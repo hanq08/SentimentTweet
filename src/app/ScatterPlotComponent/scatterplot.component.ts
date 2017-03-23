@@ -108,7 +108,7 @@ export class ScatterPlotComponent {
   }
   populate() {
     if (this.twitterState.tweets) {
-      this.xScale.domain([0, this.getMax('followers_count')>100000?100000:this.getMax('followers_count')]);
+      this.xScale.domain([0, this.getMax('followers_count')>10000?10000:this.getMax('followers_count')]);
       this.yScale.domain([0, this.getMax('following_count')]);
       this.zScale.domain([0, this.getMax('statuses_count')]);
       this.svg.selectAll('.dot')
@@ -116,7 +116,7 @@ export class ScatterPlotComponent {
         .enter().append('circle')
           .attr('class', 'dot')
           .attr('r', d => this.zScale(d.statuses_count))
-          .attr('cx', d => this.xScale(d.followers_count>100000?100000:d.followers_count))
+          .attr('cx', d => this.xScale(d.followers_count>10000?10000:d.followers_count))
           .attr('cy', d => this.yScale(d.following_count))
           .style('fill', d => this.getColor(d.sentiment_result))
           .style('opacity', 0.4)
