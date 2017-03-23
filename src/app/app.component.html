@@ -6,9 +6,6 @@
         <p>Calculation may take 10 to 20 seconds</p>
     </div>
 <div class="container">
-  <div class="col-md-6">
-      <tweet-component [twitterState]="twitterState"></tweet-component>
-  </div>
   <div id="scatterplot" class="col-md-6">
       <scatterplot-component [twitterState]="twitterState"></scatterplot-component>
       <div>
@@ -17,6 +14,9 @@
       <p> Green: This is a positive tweet about the query term </p>
       <p> Red: This is a negative tweet about the query term </p>
       </div>
+  </div>
+  <div class="col-md-6">
+      <tweet-component [twitterState]="twitterState"></tweet-component>
   </div>
 </div>
 
