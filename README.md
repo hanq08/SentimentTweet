@@ -1,6 +1,6 @@
 # TwitterSentiment
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli)
+Click [here](https://arcane-headland-76923.herokuapp.com/) to see a live demo. This project is currently using [twin-word](https://www.twinword.com/api/sentiment-analysis.php) for sentiment analysis. The next goal is to use my own [classifier](https://github.com/hanq08/tweetsentiment)  
 
 ## Development server
 
